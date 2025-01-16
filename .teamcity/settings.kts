@@ -50,7 +50,6 @@ project {
         checkbox (
             "env.IgnoreFailedSources",
             label = "IgnoreFailedSources",
-            description = "Ignore unreachable sources during Restore",
             value = "False",
             checked = "True",
             unchecked = "False",
@@ -84,7 +83,7 @@ project {
         select (
             "env.Verbosity",
             label = "Verbosity",
-            description = "Logging verbosity during build execution. Default is 'Normal'.",
+            description = "Logging verbosity during build execution. Default is Normal",
             value = "Normal",
             options = listOf("Minimal" to "Minimal", "Normal" to "Normal", "Quiet" to "Quiet", "Verbose" to "Verbose"),
             display = ParameterDisplay.NORMAL)

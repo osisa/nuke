@@ -21,31 +21,6 @@ using static Nuke.Common.Constants;
 
 namespace Nuke.Common;
 
-/// <summary>
-/// Base class for build definitions. Derived types must declare <c>static int Main</c> which calls
-/// <see cref="Execute{T}"/> for the exit code.
-/// </summary>
-/// <example>
-/// <code>
-/// class DefaultBuild : NukeBuild
-/// {
-///     public static int Main () => Execute&lt;DefaultBuild&gt;(x => x.Compile);
-///
-///     Target Clean =&gt; _ =&gt; _
-///         .Executes(() =&gt;
-///         {
-///             EnsureCleanDirectory(OutputDirectory);
-///         });
-///
-///     Target Compile =&gt; _ =&gt; _
-///         .DependsOn(Clean)
-///         .Executes(() =&gt;
-///         {
-///             MSBuild(SolutionFile);
-///         });
-/// }
-/// </code>
-/// </example>
 [PublicAPI]
 // Before logo
 [ArgumentsFromParametersFile(Priority = 150)]
@@ -82,77 +57,54 @@ public abstract partial class NukeBuild : INukeBuild
 
     public IReadOnlyCollection<ExecutableTarget> ExecutionPlan { get; set; }
 
-    /// <summary>
-    /// Gets the list of targets that were invoked.
-    /// </summary>
-    [Parameter("List of targets to be invoked. Default is '{default_target}'.",
+    /// <summary>List of targets to be invoked. Default is '{default_target}'.</summary>
+    [Parameter(
         Name = InvokedTargetsParameterName,
         Separator = TargetsSeparator)]
     public IReadOnlyCollection<ExecutableTarget> InvokedTargets => ExecutionPlan.Where(x => x.Invoked).ToList();
 
-    /// <summary>
-    /// Gets the list of targets that are skipped.
-    /// </summary>
-    [Parameter("List of targets to be skipped. Empty list skips all dependencies.",
+    /// <summary>List of targets to be skipped. Empty list skips all dependencies.</summary>
+    [Parameter(
         Name = SkippedTargetsParameterName,
         Separator = TargetsSeparator)]
     public IReadOnlyCollection<ExecutableTarget> SkippedTargets => ExecutionPlan.Where(x => x.Status == ExecutionStatus.Skipped).ToList();
 
-    /// <summary>
-    /// Gets the list of targets that are scheduled.
-    /// </summary>
+    /// <summary>List of targets that are scheduled.</summary>
     public IReadOnlyCollection<ExecutableTarget> ScheduledTargets => ExecutionPlan.Where(x => x.Status == ExecutionStatus.Scheduled).ToList();
 
-    /// <summary>
-    /// Gets the list of targets that are running.
-    /// </summary>
+    /// <summary>List of targets that are running.</summary>
     public IReadOnlyCollection<ExecutableTarget> RunningTargets => ExecutionPlan.Where(x => x.Status == ExecutionStatus.Running).ToList();
 
-    /// <summary>
-    /// Gets the list of targets that were aborted.
-    /// </summary>
+    /// <summary>List of targets that were aborted.</summary>
     public IReadOnlyCollection<ExecutableTarget> AbortedTargets => ExecutionPlan.Where(x => x.Status == ExecutionStatus.Aborted).ToList();
 
-    /// <summary>
-    /// Gets the list of targets that have failed.
-    /// </summary>
+    /// <summary>List of targets that have failed.</summary>
     public IReadOnlyCollection<ExecutableTarget> FailedTargets => ExecutionPlan.Where(x => x.Status == ExecutionStatus.Failed).ToList();
 
-    /// <summary>
-    /// Gets the list of targets that have succeeded.
-    /// </summary>
+    /// <summary>List of targets that have succeeded.</summary>
     public IReadOnlyCollection<ExecutableTarget> SucceededTargets => ExecutionPlan.Where(x => x.Status == ExecutionStatus.Succeeded).ToList();
 
-    /// <summary>
-    /// Gets the list of targets that have been finished (failed or succeeded).
-    /// </summary>
+    /// <summary>List of targets that have been finished (failed or succeeded).</summary>
     public IReadOnlyCollection<ExecutableTarget> FinishedTargets => FailedTargets.Concat(SucceededTargets).ToList();
 
-    /// <summary>
-    /// Gets a value whether to show the execution plan (HTML).
-    /// </summary>
-    [Parameter("Shows the execution plan (HTML).")]
+    /// <summary>Shows the execution plan (HTML).</summary>
+    [Parameter]
     public bool Plan { get; }
 
-    /// <summary>
-    /// Gets a value whether to show the help text for this build assembly.
-    /// </summary>
-    [Parameter("Shows the help text for this build assembly.")]
+    /// <summary>Shows the help text for this build assembly.</summary>
+    [Parameter]
     public bool Help { get; }
 
-    /// <summary>
-    /// Gets a value whether to display the NUKE logo.
-    /// </summary>
-    [Parameter("Disables displaying the NUKE logo.")]
+    /// <summary>Disables displaying the NUKE logo.</summary>
+    [Parameter]
     public bool NoLogo { get; set; }
 
-    /// <summary>
-    /// Gets a value whether a previous failed build should be continued.
-    /// </summary>
-    [Parameter("Indicates to continue a previously failed build attempt.")]
+    /// <summary>Indicates to continue a previously failed build attempt.</summary>
+    [Parameter]
     public bool Continue { get; internal set; }
 
-    [Parameter("Partition to use on CI.", List = false)]
+    /// <summary>Partition to use on CI.</summary>
+    [Parameter(List = false)]
     public Partition Partition { get; internal set; } = Partition.Single;
 
     [CanBeNull]
@@ -193,11 +145,7 @@ public abstract partial class NukeBuild : INukeBuild
 
     public bool IsFinished => !ScheduledTargets.Concat(RunningTargets).Any();
 
-    /// <summary>
-    /// Gets or sets the build exit code.
-    /// When set to <value>null</value> (default), <see cref="Execute{T}"/> will return a <em>0</em> exit code on build success; or a <em>-1</em> exit code on build failure.
-    /// When set to a non-null value, <see cref="Execute{T}"/> will return the value of <see cref="ExitCode"/>.
-    /// </summary>
+    /// <summary>Gets or sets the current build exit code.</summary>
     public int? ExitCode { get; set; }
 
     private bool IsInterceptorExecution => Environment.GetEnvironmentVariable(InterceptorEnvironmentKey) == "1";

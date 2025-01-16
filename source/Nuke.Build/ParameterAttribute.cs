@@ -34,7 +34,12 @@ namespace Nuke.Common;
 [PublicAPI]
 public class ParameterAttribute : ValueInjectionAttributeBase
 {
-    public ParameterAttribute(string description = null)
+    public ParameterAttribute()
+    {
+    }
+
+    [Obsolete("Use regular XML documentation instead")]
+    public ParameterAttribute(string description)
     {
         Description = description;
     }

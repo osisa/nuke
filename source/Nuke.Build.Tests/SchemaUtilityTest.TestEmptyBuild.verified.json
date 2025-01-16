@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
     "Host": {
@@ -34,7 +34,7 @@
           "description": "Shows the help text for this build assembly"
         },
         "Host": {
-          "description": "Host for execution. Default is 'automatic'",
+          "description": "Host for execution. Default is automatic",
           "$ref": "#/definitions/Host"
         },
         "NoLogo": {
@@ -51,7 +51,7 @@
         },
         "Profile": {
           "type": "array",
-          "description": "Defines the profiles to load",
+          "description": "Profiles (parameter files) to load",
           "items": {
             "type": "string"
           }
@@ -75,7 +75,7 @@
           }
         },
         "Verbosity": {
-          "description": "Logging verbosity during build execution. Default is 'Normal'",
+          "description": "Logging verbosity during build execution. Default is Normal",
           "$ref": "#/definitions/Verbosity"
         }
       }

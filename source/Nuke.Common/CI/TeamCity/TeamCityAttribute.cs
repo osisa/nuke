@@ -299,7 +299,7 @@ public class TeamCityAttribute : ChainedConfigurationAttributeBase
                {
                    // TODO: #555 - Should this use ParameterService.GetParameterMemberName(member) ?
                    Name = ParameterService.GetParameterMemberName(member),
-                   Description = attribute.Description,
+                   Description = ParameterService.GetParameterDescription(member),
                    Options = valueSet?.ToDictionary(x => x.Item1, x => x.Item2),
                    Type = GetParameterType(),
                    DefaultValue = memberType.IsArray && defaultValue is IEnumerable enumerable

@@ -103,7 +103,7 @@
           "description": "Shows the help text for this build assembly"
         },
         "Host": {
-          "description": "Host for execution. Default is 'automatic'",
+          "description": "Host for execution. Default is automatic",
           "$ref": "#/definitions/Host"
         },
         "NoLogo": {
@@ -120,7 +120,7 @@
         },
         "Profile": {
           "type": "array",
-          "description": "Defines the profiles to load",
+          "description": "Profiles (parameter files) to load",
           "items": {
             "type": "string"
           }
@@ -144,7 +144,7 @@
           }
         },
         "Verbosity": {
-          "description": "Logging verbosity during build execution. Default is 'Normal'",
+          "description": "Logging verbosity during build execution. Default is Normal",
           "$ref": "#/definitions/Verbosity"
         }
       }
@@ -180,8 +180,7 @@
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
         "IgnoreFailedSources": {
-          "type": "boolean",
-          "description": "Ignore unreachable sources during Restore"
+          "type": "boolean"
         },
         "Major": {
           "type": "boolean"

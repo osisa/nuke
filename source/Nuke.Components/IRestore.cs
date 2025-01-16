@@ -31,6 +31,6 @@ public interface IRestore : IHazSolution, INukeBuild
 
     Configure<DotNetRestoreSettings> RestoreSettings => _ => _;
 
-    [Parameter("Ignore unreachable sources during " + nameof(Restore))]
+    [Parameter]
     bool IgnoreFailedSources => TryGetValue<bool?>(() => IgnoreFailedSources) ?? false;
 }
